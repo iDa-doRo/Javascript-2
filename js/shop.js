@@ -1,3 +1,4 @@
+// Given Code:
 // If you have time, you can move this variable "products" to a json or js file and load the data in this js. It will look more professional
 var products = [
     {
@@ -68,32 +69,62 @@ var products = [
 // ** It will save you a lot of time and frustration!
 // ** You'll understand the code better than with console.log(), and you'll also find errors faster. 
 // ** Don't hesitate to seek help from your peers or your mentor if you still struggle with debugging.
-
 // Improved version of cartList. Cart is an array of products (objects), but each one has a quantity field to define its quantity, so these products are not repeated.
-var cart = [];
 
+var cart = [];
 var total = 0;
 
+// Developed Code: 
 // Exercise 1
-function buy(id) {
+const buy = (productId) => {
     // 1. Loop for to the array products to get the item to add to cart
+    const product = products.find(p => p.id === productId);
     // 2. Add found product to the cart array
-}
+    const cartItem = cart.find (item => item.id === productId);
+    // 2.1 If exists increment number, else add to cart
+    if (cartItem) {
+        cartItem.quantity += 1;
+        console.log(`Quantity of ${cartItem.name} updated to ${cartItem.quantity}`);
+    } else {
+        cart.push({...product, quantity:1 });
+        console.log(`${product.name} added to cart`);
+    }
+};    
+console.log(cart);
 
 // Exercise 2
-function cleanCart() {
+const cleanCart = () => {
+cart =[];
+console.log('Empty shopping cart');
+};
 
-}
-
-// Exercise 3
-function calculateTotal() {
-    // Calculate total price of the cart using the "cartList" array
-}
+// Exercise 3 
+const calculateTotal = () => { 
+    // Calculate total price of the cart using the "cart" array
+cart.forEach(item => {
+    item.totalPrice = (item.price * item.quantity).toFixed(2);
+    item.subtotalWithDiscount = null;
+});
+const totalCart = cart.reduce((acc, item) => acc + parseFloat(item.totalPrice), 0).toFixed(2);
+console.log(`Total cost of the cart: €${totalCart}`);  
+return (totalCart);
+};
 
 // Exercise 4
-function applyPromotionsCart() {
-    // Apply promotions to each item in the array "cart"
-}
+const applyPromotionsCart = (cart) => {
+    // Apply promotions to each item in the array "cart", if any
+    cart.forEach(item => {
+        if (item.offer && item.quantity >= item.offer.number) {
+            const discount = item.offer.percent / 100;
+            const discountedPrice = item.price * (1 - discount);
+            item.subtotalWithDiscount = (item.quantity * discountedPrice).toFixed(2)
+        } else {
+            item.subtotalWithDiscount = (item.quantity * item.price).toFixed(2)
+        }
+    });
+    console.log('Cart with promos: ', cart);
+    return cart;
+};
 
 // Exercise 5
 function printCart() {

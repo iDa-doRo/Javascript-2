@@ -1,0 +1,20 @@
+{
+  "name": "javascript-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+
+    "watch": ["src"],         
+    "ext": "js,json",         
+    "ignore": ["node_modules"], 
+    "exec": "node shop.js",
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "shop": "nodemon js/shop.js",
+    "checkout": "nodemon js/checkout.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
