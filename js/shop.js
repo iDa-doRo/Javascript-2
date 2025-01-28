@@ -128,17 +128,47 @@ const applyPromotionsCart = (cart) => {
 
 // Exercise 5
 function printCart() {
+    const cartList = document.getElementById('cart_list');
+    const totalPriceCart = document.getElementById('total_price');
+    const countProductCart = document.getElementById('count_product');
+    cartList.innerHTML = ''; //empty current cart
     // Fill the shopping cart modal manipulating the shopping cart dom
+    let totalItems = 0;
+    cart.forEach(item => {
+    const row = document.createElement('tr');
+    const totalBill = item.subtotalWithDiscount ? item.subtotalWithDiscount : (item.price * item.quantity).toFixed(2);
+    row.innerHTML = `
+<th scope='row'>${item.name}</th>
+<td>$${item.price.toFixed(2)}</td>
+<td>${item.quantity}</td>
+<td>$${totalBill}</td>
+`;
+cartList.appendChild(row);
+totalItems += item.quantity;
+});
+const finalPrice = cart.reduce((acc, item) => {
+    const subtotal = item.subtotalWithDiscount ? parseFloat(item.subtotalWithDiscount) : item.price * item.quantity;
+    return acc + subtotal;
+}, 0).toFixed(2);
+totalPriceCart.innerHTML = finalPrice; 
+countProductCart.innerHTML = totalItems;
 }
-
 
 // ** Nivell II **
-
 // Exercise 7
 function removeFromCart(id) {
-
-}
-
+    const cartIndex = cart.findIndex(item => item.id === id);
+    if (cartIndex !== -1) {
+        const cartItem = cart[cartIndex];
+        if (cartIndex.quantity > 1) {
+            cartItem.quantity -= 1;
+        } else {
+            cart.splice(cartIndex, 1);
+        }
+        applyPromotionsCart(cart); 
+        printCart(); 
+    }
+};
 function open_modal() {
     printCart();
 }
